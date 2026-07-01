@@ -1,0 +1,72 @@
+# Основное для Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Виртуальное окружение
+venv/
+.venv/
+env/
+ENV/
+
+# Секреты (ВАЖНО!)
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE (VSCode)
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# База данных
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+migrations/
+
+# Логи
+*.log
+logs/
+*.log.*
+
+# Данные (не заливаем на GitHub)
+data/
+*.json
+*.csv
+*.pickle
+*.pkl
+
+# Сборка
+*.egg-info/
+dist/
+build/
+*.whl
+*.tar.gz
+
+# Тесты
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Системные
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Временные файлы
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+.history/
