@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+Ручное наполнение базы знаний типовыми вопросами
+Запуск: python db/seed_knowledge_manual.py
+"""
+
 import os
 import sys
 
@@ -21,7 +27,7 @@ MANUAL_ENTRIES = [
 4. Получите access_token и refresh_token
 
 Подробнее: https://api.hh.ru/openapi/redoc#section/Avtorizaciya""",
-        "source": "authorization.md"
+        "source_url": "authorization.md"
     },
     {
         "topic": "Вакансии",
@@ -38,7 +44,7 @@ MANUAL_ENTRIES = [
 - page — номер страницы
 
 Пример: GET /vacancies?text=Python&area=1&per_page=20""",
-        "source": "vacancies.md"
+        "source_url": "vacancies.md"
     },
     {
         "topic": "Отклики",
@@ -53,7 +59,7 @@ MANUAL_ENTRIES = [
 - message — сопроводительное письмо
 
 Пример: POST /negotiations?vacancy_id=123456&resume_id=789012""",
-        "source": "negotiations.md"
+        "source_url": "negotiations.md"
     },
     {
         "topic": "Резюме",
@@ -66,7 +72,7 @@ MANUAL_ENTRIES = [
 - Контакты видны только при оплаченном доступе
 
 Пример: GET /resumes/0123456789abcdef""",
-        "source": "employer_resumes.md"
+        "source_url": "employer_resumes.md"
     },
     {
         "topic": "Ошибки",
@@ -83,7 +89,7 @@ MANUAL_ENTRIES = [
 - Проверьте авторизацию
 - Обновите токен
 - Проверьте права доступа""",
-        "source": "errors.md"
+        "source_url": "errors.md"
     },
     {
         "topic": "Поиск",
@@ -99,7 +105,7 @@ MANUAL_ENTRIES = [
 
 Пример: 
 GET /vacancies?text=Python&experience=between1And3&employment=full""",
-        "source": "vacancies_for_applicant.md"
+        "source_url": "vacancies_for_applicant.md"
     },
     {
         "topic": "Справочники",
@@ -112,7 +118,7 @@ GET /vacancies?text=Python&experience=between1And3&employment=full""",
 
 Данные кэшируются, обновляйте при необходимости.
 Используйте Etag для оптимизации.""",
-        "source": "areas.md"
+        "source_url": "areas.md"
     }
 ]
 
@@ -125,12 +131,10 @@ def seed_manual_entries():
     db = SessionLocal()
     
     try:
-        # Проверяем, есть ли уже такие записи
         existing_count = 0
         new_count = 0
         
         for entry_data in MANUAL_ENTRIES:
-            # Проверяем, есть ли уже такой вопрос
             existing = db.query(KnowledgeEntry).filter(
                 KnowledgeEntry.question_pattern == entry_data["question_pattern"]
             ).first()
@@ -164,7 +168,7 @@ def show_sample():
     entries = db.query(KnowledgeEntry).limit(5).all()
     
     if entries:
-        print("\n📋 Примеры записей в базе знаний:")
+        print("\n Примеры записей в базе знаний:")
         for entry in entries:
             print(f"   {entry.question_pattern[:60]}...")
             print(f"   {entry.topic}")
