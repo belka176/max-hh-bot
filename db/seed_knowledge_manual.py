@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-"""
-Ручное наполнение базы знаний типовыми вопросами
-Запуск: python db/seed_knowledge_manual.py
-"""
-
 import os
 import sys
 
@@ -17,7 +11,7 @@ from app.models import KnowledgeEntry
 MANUAL_ENTRIES = [
     {
         "topic": "Авторизация",
-        "question": "Как получить access-токен для API HH.ru?",
+        "question_pattern": "Как получить access-токен для API HH.ru?",
         "answer": """Для получения access-токена используйте OAuth 2.0.
         
 Шаги:
@@ -31,7 +25,7 @@ MANUAL_ENTRIES = [
     },
     {
         "topic": "Вакансии",
-        "question": "Как получить список вакансий?",
+        "question_pattern": "Как получить список вакансий?",
         "answer": """Используйте GET запрос к /vacancies.
 
 Основные параметры:
@@ -48,7 +42,7 @@ MANUAL_ENTRIES = [
     },
     {
         "topic": "Отклики",
-        "question": "Как откликнуться на вакансию через API?",
+        "question_pattern": "Как откликнуться на вакансию через API?",
         "answer": """Используйте POST запрос к /negotiations.
 
 Обязательные параметры:
@@ -63,7 +57,7 @@ MANUAL_ENTRIES = [
     },
     {
         "topic": "Резюме",
-        "question": "Как получить резюме соискателя?",
+        "question_pattern": "Как получить резюме соискателя?",
         "answer": """Используйте GET запрос к /resumes/{resume_id}.
 
 Важно:
@@ -76,7 +70,7 @@ MANUAL_ENTRIES = [
     },
     {
         "topic": "Ошибки",
-        "question": "Что означает ошибка 403 при запросе к API?",
+        "question_pattern": "Что означает ошибка 403 при запросе к API?",
         "answer": """Ошибка 403 (Forbidden) означает, что у вас нет прав на выполнение запроса.
 
 Возможные причины:
@@ -93,7 +87,7 @@ MANUAL_ENTRIES = [
     },
     {
         "topic": "Поиск",
-        "question": "Как искать вакансии с фильтрацией?",
+        "question_pattern": "Как искать вакансии с фильтрацией?",
         "answer": """Используйте GET /vacancies с параметрами фильтрации.
 
 Популярные фильтры:
@@ -109,7 +103,7 @@ GET /vacancies?text=Python&experience=between1And3&employment=full""",
     },
     {
         "topic": "Справочники",
-        "question": "Где взять справочники регионов и метро?",
+        "question_pattern": "Где взять справочники регионов и метро?",
         "answer": """Справочники доступны через API:
 - Регионы: GET /areas
 - Метро: GET /metro
@@ -138,17 +132,17 @@ def seed_manual_entries():
         for entry_data in MANUAL_ENTRIES:
             # Проверяем, есть ли уже такой вопрос
             existing = db.query(KnowledgeEntry).filter(
-                KnowledgeEntry.question_pattern == entry_data["question"]
+                KnowledgeEntry.question_pattern == entry_data["question_pattern"]
             ).first()
             
             if existing:
                 existing_count += 1
-                print(f"  Уже есть: {entry_data['question'][:40]}...")
+                print(f"  Уже есть: {entry_data['question_pattern'][:40]}...")
             else:
                 entry = KnowledgeEntry(**entry_data)
                 db.add(entry)
                 new_count += 1
-                print(f" Добавлен: {entry_data['question'][:40]}...")
+                print(f" Добавлен: {entry_data['question_pattern'][:40]}...")
         
         db.commit()
         db.close()
